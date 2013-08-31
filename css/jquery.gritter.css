@@ -1,102 +1,144 @@
+/*
+ * Gritter for jQuery
+ * http://www.boedesign.com/
+ *
+ * Copyright (c) 2012 Jordan Boesch
+ * Dual licensed under the MIT and GPL licenses.
+ *
+ * Date: February 24, 2012
+ * Version: 1.7.4
+ */
 /* the norm */
 #gritter-notice-wrapper {
-	position:fixed;
-	top:20px;
-	right:20px;
-	width:301px;
-	z-index:9999;
-}
-#gritter-notice-wrapper.top-left {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 301px;
+  z-index: 9999; }
+  #gritter-notice-wrapper.top-left {
     left: 20px;
-    right: auto;
-}
-#gritter-notice-wrapper.bottom-right {
+    right: auto; }
+  #gritter-notice-wrapper.bottom-right {
     top: auto;
     left: auto;
     bottom: 20px;
-    right: 20px;
-}
-#gritter-notice-wrapper.bottom-left {
+    right: 20px; }
+  #gritter-notice-wrapper.bottom-left {
     top: auto;
     right: auto;
     bottom: 20px;
-    left: 20px;
-}
+    left: 20px; }
+
 .gritter-item-wrapper {
-	position:relative;
-	margin:0 0 10px 0;
-	background:url('../images/ie-spacer.gif'); /* ie7/8 fix */ 
-}
-.gritter-top {
-	background:url(../images/gritter.png) no-repeat left -30px;
-	height:10px;
-}
-.hover .gritter-top {
-	background-position:right -30px;
-}
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  background-clip: padding-box;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #eee;
+  padding: 2px;
+  position: relative;
+  margin: 0 0 10px 0; }
+  .gritter-item-wrapper:hover {
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    padding: 0; }
+
 .gritter-bottom {
-	background:url(../images/gritter.png) no-repeat left bottom;
-	height:8px;
-	margin:0;
-}
-.hover .gritter-bottom {
-	background-position: bottom right;
-}
+  height: 8px;
+  margin: 0; }
+
 .gritter-item {
-	display:block;
-	background:url(../images/gritter.png) no-repeat left -40px;
-	color:#eee;
-	padding:2px 11px 8px 11px;
-	font-size: 11px;
-	font-family:verdana;
-}
-.hover .gritter-item {
-	background-position:right -40px;
-}
-.gritter-item p {
-	padding:0;
-	margin:0;
-	word-wrap:break-word;
-}
+  display: block;
+  padding: 10px 9px 6px 9px;
+  font-size: 11px;
+  font-family: verdana; }
+  .gritter-item p {
+    padding: 0;
+    margin: 0;
+    word-wrap: break-word; }
+
 .gritter-close {
-	display:none;
-	position:absolute;
-	top:5px;
-	left:3px;
-	background:url(../images/gritter.png) no-repeat left top;
-	cursor:pointer;
-	width:30px;
-	height:30px;
-	text-indent:-9999em;
-}
+  -webkit-border-radius: 50%;
+  -khtml-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  background: black url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQAAAADsdIMmAAAAAnRSTlMAAHaTzTgAAAAVSURBVHgBYzjM8JyhjsEGCOuArMMAJlAEyWWf1D4AAAAASUVORK5CYII=) no-repeat center;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.75);
+  display: none;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  text-indent: -9999em;
+  outline: none; }
+  .gritter-item-wrapper:hover .gritter-close {
+    display: block; }
+
 .gritter-title {
-	font-size:14px;
-	font-weight:bold;
-	padding:0 0 7px 0;
-	display:block;
-	text-shadow:1px 1px 0 #000; /* Not supported by IE :( */
-}
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0 0 7px 0;
+  display: block;
+  text-shadow: 1px 1px 0 #000;
+  /* Not supported by IE :( */ }
+
 .gritter-image {
-	width:48px;
-	height:48px;
-	float:left;
-}
+  width: 48px;
+  height: 48px;
+  float: left; }
+
 .gritter-with-image,
 .gritter-without-image {
-	padding:0;
-}
+  padding: 0; }
+
 .gritter-with-image {
-	width:220px;
-	float:right;
-}
+  width: 220px;
+  float: right; }
+
 /* for the light (white) version of the gritter notice */
-.gritter-light .gritter-item,
-.gritter-light .gritter-bottom,
-.gritter-light .gritter-top,
-.gritter-light .gritter-close {
-    background-image: url(../images/gritter-light.png);
-    color: #222;
-}
+.gritter-light.gritter-item-wrapper {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #222; }
+  .gritter-light.gritter-item-wrapper:hover {
+    border-color: rgba(0, 0, 0, 0.8); }
 .gritter-light .gritter-title {
-    text-shadow: none;
-}
+  text-shadow: none; }
+
+/* IE7/8 border-radius fallback */
+.no-borderradius {
+  /* Light */ }
+  .no-borderradius .gritter-item-wrapper {
+    background: url("../images/ie-spacer.gif");
+    padding: 0; }
+    .no-borderradius .gritter-item-wrapper:hover {
+      border: none; }
+      .no-borderradius .gritter-item-wrapper:hover .gritter-item {
+        background-position: right -30px; }
+      .no-borderradius .gritter-item-wrapper:hover .gritter-bottom {
+        background-position: bottom right; }
+  .no-borderradius .gritter-item {
+    background: url(../images/gritter.png) no-repeat left -30px;
+    padding: 10px 11px 8px 11px; }
+  .no-borderradius .gritter-bottom {
+    background: url(../images/gritter.png) no-repeat left bottom;
+    height: 10px; }
+  .no-borderradius .gritter-close {
+    background: url(../images/gritter.png) no-repeat left top;
+    border: none;
+    box-shadow: none;
+    top: 5px;
+    left: 3px;
+    width: 30px;
+    height: 30px; }
+  .no-borderradius .gritter-light .gritter-item,
+  .no-borderradius .gritter-light .gritter-bottom,
+  .no-borderradius .gritter-light .gritter-close {
+    background-image: url(../images/gritter-light.png); }

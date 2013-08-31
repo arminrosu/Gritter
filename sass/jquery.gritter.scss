@@ -1,3 +1,28 @@
+/*
+ * Gritter for jQuery
+ * http://www.boedesign.com/
+ *
+ * Copyright (c) 2012 Jordan Boesch
+ * Dual licensed under the MIT and GPL licenses.
+ *
+ * Date: February 24, 2012
+ * Version: 1.7.4
+ */
+
+// Variables
+$color-black-trans: transparentize(#000, 0.2);
+$color-white-trans: transparentize(#fff, 0.2);
+
+// Mixins
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	-khtml-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-ms-border-radius: $radius;
+	-o-border-radius: $radius;
+	border-radius: $radius;
+}
+
 /* the norm */
 #gritter-notice-wrapper {
 	position: fixed;
@@ -25,41 +50,30 @@
 }
 
 .gritter-item-wrapper {
+	@include border-radius(10px);
+	background-clip: padding-box;
+	background-color: $color-black-trans;
+	color: #eee;
+	padding: 2px;
 	position: relative;
 	margin: 0 0 10px 0;
-	background: url('../images/ie-spacer.gif'); /* ie7/8 fix */
-}
 
-.gritter-top {
-	background: url(../images/gritter.png) no-repeat left -30px;
-	height: 10px;
-
-	.hover & {
-		background-position: right -30px;
+	&:hover {
+		border: 2px solid $color-white-trans;
+		padding: 0;
 	}
 }
 
 .gritter-bottom {
-	background: url(../images/gritter.png) no-repeat left bottom;
 	height: 8px;
 	margin: 0;
-
-	.hover & {
-		background-position: bottom right;
-	}
 }
 
 .gritter-item {
 	display: block;
-	background: url(../images/gritter.png) no-repeat left -40px;
-	color: #eee;
-	padding: 2px 11px 8px 11px;
+	padding: 10px 9px 6px 9px; // 10px instead of .gritter-top
 	font-size: 11px;
 	font-family: verdana;
-
-	.hover & {
-		background-position: right -40px;
-	}
 
 	p {
 		padding: 0;
@@ -69,15 +83,26 @@
 }
 
 .gritter-close {
+	@include border-radius(50%);
+	// ../images/gritter-cross.png
+	// base64 encoded since this is the only image modern browsers would have to load. also, it's 92bytes
+	background: #000 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQAAAADsdIMmAAAAAnRSTlMAAHaTzTgAAAAVSURBVHgBYzjM8JyhjsEGCOuArMMAJlAEyWWf1D4AAAAASUVORK5CYII=) no-repeat center;
+	border: 2px solid #fff;
+	box-shadow: 0 2px 5px transparentize(#000, 0.25);
 	display: none;
 	position: absolute;
-	top: 5px;
-	left: 3px;
-	background: url(../images/gritter.png) no-repeat left top;
+	top: 7px;
+	left: 7px;
+
 	cursor: pointer;
-	width: 30px;
-	height: 30px;
+	width: 18px;
+	height: 18px;
 	text-indent: -9999em;
+	outline: none;
+
+	.gritter-item-wrapper:hover & {
+		display: block;
+	}
 }
 
 .gritter-title {
@@ -106,14 +131,67 @@
 
 /* for the light (white) version of the gritter notice */
 .gritter-light {
-	.gritter-item,
-	.gritter-bottom,
-	.gritter-top,
-	.gritter-close {
-		background-image: url(../images/gritter-light.png);
+
+	&.gritter-item-wrapper {
+		background-color: $color-white-trans;
 		color: #222;
+
+		&:hover {
+			border-color: $color-black-trans;
+		}
 	}
+
 	.gritter-title {
 		text-shadow: none;
+	}
+}
+
+/* IE7/8 border-radius fallback */
+.no-borderradius {
+
+	.gritter-item-wrapper {
+		background: url('../images/ie-spacer.gif');
+		padding: 0;
+
+		&:hover {
+			border: none;
+
+			.gritter-item {
+				background-position: right -30px;
+			}
+
+			.gritter-bottom  {
+				background-position: bottom right;
+			}
+		}
+	}
+
+	.gritter-item {
+		background: url(../images/gritter.png) no-repeat left -30px;
+		padding: 10px 11px 8px 11px;
+	}
+
+	.gritter-bottom {
+		background:  url(../images/gritter.png) no-repeat left bottom;
+		height: 10px;
+	}
+
+	.gritter-close {
+		background: url(../images/gritter.png) no-repeat left top;
+		border: none;
+		box-shadow: none;
+		top: 5px;
+		left: 3px;
+		width: 30px;
+		height: 30px;
+	}
+
+	/* Light */
+	.gritter-light {
+		.gritter-item,
+		.gritter-bottom,
+		.gritter-close {
+			background-image: url(../images/gritter-light.png);
+		}
 	}
 }

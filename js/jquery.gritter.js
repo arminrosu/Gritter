@@ -82,7 +82,7 @@
 		_is_setup: 0,
 		_tpl_close: '<a class="gritter-close" href="#" tabindex="1">Close Notification</a>',
 		_tpl_title: '<span class="gritter-title">[[title]]</span>',
-		_tpl_item: '<div id="gritter-item-[[number]]" class="gritter-item-wrapper [[item_class]]" style="display:none" role="alert"><div class="gritter-top"></div><div class="gritter-item">[[close]][[image]]<div class="[[class_name]]">[[title]]<p>[[text]]</p></div><div style="clear:both"></div></div><div class="gritter-bottom"></div></div>',
+		_tpl_item: '<div id="gritter-item-[[number]]" class="gritter-item-wrapper [[item_class]]" style="display:none" role="alert"><div class="gritter-item">[[close]][[image]]<div class="[[class_name]]">[[title]]<p>[[text]]</p></div><div style="clear:both"></div></div><div class="gritter-bottom"></div></div>',
 		_tpl_wrap: '<div id="gritter-notice-wrapper"></div>',
 
 		/**
@@ -115,6 +115,7 @@
 				position = $.gritter.options.position,
 				time_alive = params.time || '';
 
+			this._testBorderRadius();
 			this._verifyWrapper();
 
 			this._item_count++;
@@ -178,7 +179,6 @@
 						Gritter._setFadeTimer($(this), number);
 					}
 				}
-				Gritter._hoverState($(this), event.type);
 			});
 
 			// Clicking (X) makes the perdy thing close
@@ -248,35 +248,6 @@
 			} else {
 
 				this._countRemoveWrapper(unique_id, e);
-
-			}
-
-		},
-
-		/**
-		* Perform actions based on the type of bind (mouseenter, mouseleave)
-		* @private
-		* @param {Object} e The jQuery element
-		* @param {String} type The type of action we're performing: mouseenter or mouseleave
-		*/
-		_hoverState: function(e, type){
-
-			// Change the border styles and add the (X) close button when you hover
-			if(type === 'mouseenter'){
-
-				e.addClass('hover');
-
-				// Show close button
-				e.find('.gritter-close').show();
-
-			}
-			// Remove the border styles and hide (X) close button when you mouse out
-			else {
-
-				e.removeClass('hover');
-
-				// Hide close button
-				e.find('.gritter-close').hide();
 
 			}
 
@@ -404,6 +375,35 @@
 			}
 
 			return sa ? s : s[0];
+
+		},
+
+		/**
+		 * Check if browser supports border-radius
+		 *
+		 * Will set jQuery.support.borderRadius and .borderradius or .no-borderradius (like Modernizr) on body
+		 * @private
+		 */
+		_testBorderRadius: function() {
+
+			if (typeof jQuery.support.borderRadius === 'undefined'){
+				// test for support, Rob Glazebrook method
+				jQuery.support.borderRadius = false;
+				jQuery.each(['BorderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
+					if(document.body.style[this] !== undefined){
+						jQuery.support.borderRadius = true;
+					}
+					return !jQuery.support.borderRadius;
+				});
+
+				// set class
+				var $body = $(document.body);
+				if (jQuery.support.borderRadius) {
+					$body.addClass('borderradius');
+				} else {
+					$body.addClass('no-borderradius');
+				}
+			}
 
 		},
 
